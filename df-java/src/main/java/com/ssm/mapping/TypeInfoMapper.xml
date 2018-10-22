@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.Dao.TypeInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ssm.domain.TypeInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ttitle" jdbcType="VARCHAR" property="ttitle" />
+    <result column="isDelete" jdbcType="BIT" property="isdelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, ttitle, isDelete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from df_goods_typeinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from df_goods_typeinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ssm.domain.TypeInfo">
+    insert into df_goods_typeinfo (id, ttitle, isDelete
+      )
+    values (#{id,jdbcType=INTEGER}, #{ttitle,jdbcType=VARCHAR}, #{isdelete,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.domain.TypeInfo">
+    insert into df_goods_typeinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ttitle != null">
+        ttitle,
+      </if>
+      <if test="isdelete != null">
+        isDelete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ttitle != null">
+        #{ttitle,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.domain.TypeInfo">
+    update df_goods_typeinfo
+    <set>
+      <if test="ttitle != null">
+        ttitle = #{ttitle,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null">
+        isDelete = #{isdelete,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.domain.TypeInfo">
+    update df_goods_typeinfo
+    set ttitle = #{ttitle,jdbcType=VARCHAR},
+      isDelete = #{isdelete,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+ 
+</mapper>

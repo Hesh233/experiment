@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.Dao.GoodsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ssm.domain.GoodsInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gtitle" jdbcType="VARCHAR" property="gtitle" />
+    <result column="gpic" jdbcType="VARCHAR" property="gpic" />
+    <result column="gprice" jdbcType="DECIMAL" property="gprice" />
+    <result column="gunit" jdbcType="VARCHAR" property="gunit" />
+    <result column="gclick" jdbcType="INTEGER" property="gclick" />
+    <result column="gjianjie" jdbcType="VARCHAR" property="gjianjie" />
+    <result column="gkucun" jdbcType="INTEGER" property="gkucun" />
+    <result column="isDelete" jdbcType="BIT" property="isdelete" />
+    <result column="gtype_id" jdbcType="INTEGER" property="gtypeId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ssm.domain.GoodsInfo">
+    <result column="gcontent" jdbcType="LONGVARCHAR" property="gcontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, gtitle, gpic, gprice, gunit, gclick, gjianjie, gkucun, isDelete, gtype_id
+  </sql>
+  <sql id="Blob_Column_List">
+    gcontent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from df_goods_goodsinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from df_goods_goodsinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ssm.domain.GoodsInfo">
+    insert into df_goods_goodsinfo (id, gtitle, gpic, 
+      gprice, gunit, gclick, 
+      gjianjie, gkucun, isDelete, 
+      gtype_id, gcontent)
+    values (#{id,jdbcType=INTEGER}, #{gtitle,jdbcType=VARCHAR}, #{gpic,jdbcType=VARCHAR}, 
+      #{gprice,jdbcType=DECIMAL}, #{gunit,jdbcType=VARCHAR}, #{gclick,jdbcType=INTEGER}, 
+      #{gjianjie,jdbcType=VARCHAR}, #{gkucun,jdbcType=INTEGER}, #{isdelete,jdbcType=BIT}, 
+      #{gtypeId,jdbcType=INTEGER}, #{gcontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.domain.GoodsInfo">
+    insert into df_goods_goodsinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gtitle != null">
+        gtitle,
+      </if>
+      <if test="gpic != null">
+        gpic,
+      </if>
+      <if test="gprice != null">
+        gprice,
+      </if>
+      <if test="gunit != null">
+        gunit,
+      </if>
+      <if test="gclick != null">
+        gclick,
+      </if>
+      <if test="gjianjie != null">
+        gjianjie,
+      </if>
+      <if test="gkucun != null">
+        gkucun,
+      </if>
+      <if test="isdelete != null">
+        isDelete,
+      </if>
+      <if test="gtypeId != null">
+        gtype_id,
+      </if>
+      <if test="gcontent != null">
+        gcontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="gtitle != null">
+        #{gtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="gpic != null">
+        #{gpic,jdbcType=VARCHAR},
+      </if>
+      <if test="gprice != null">
+        #{gprice,jdbcType=DECIMAL},
+      </if>
+      <if test="gunit != null">
+        #{gunit,jdbcType=VARCHAR},
+      </if>
+      <if test="gclick != null">
+        #{gclick,jdbcType=INTEGER},
+      </if>
+      <if test="gjianjie != null">
+        #{gjianjie,jdbcType=VARCHAR},
+      </if>
+      <if test="gkucun != null">
+        #{gkucun,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="gtypeId != null">
+        #{gtypeId,jdbcType=INTEGER},
+      </if>
+      <if test="gcontent != null">
+        #{gcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.domain.GoodsInfo">
+    update df_goods_goodsinfo
+    <set>
+      <if test="gtitle != null">
+        gtitle = #{gtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="gpic != null">
+        gpic = #{gpic,jdbcType=VARCHAR},
+      </if>
+      <if test="gprice != null">
+        gprice = #{gprice,jdbcType=DECIMAL},
+      </if>
+      <if test="gunit != null">
+        gunit = #{gunit,jdbcType=VARCHAR},
+      </if>
+      <if test="gclick != null">
+        gclick = #{gclick,jdbcType=INTEGER},
+      </if>
+      <if test="gjianjie != null">
+        gjianjie = #{gjianjie,jdbcType=VARCHAR},
+      </if>
+      <if test="gkucun != null">
+        gkucun = #{gkucun,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null">
+        isDelete = #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="gtypeId != null">
+        gtype_id = #{gtypeId,jdbcType=INTEGER},
+      </if>
+      <if test="gcontent != null">
+        gcontent = #{gcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ssm.domain.GoodsInfo">
+    update df_goods_goodsinfo
+    set gtitle = #{gtitle,jdbcType=VARCHAR},
+      gpic = #{gpic,jdbcType=VARCHAR},
+      gprice = #{gprice,jdbcType=DECIMAL},
+      gunit = #{gunit,jdbcType=VARCHAR},
+      gclick = #{gclick,jdbcType=INTEGER},
+      gjianjie = #{gjianjie,jdbcType=VARCHAR},
+      gkucun = #{gkucun,jdbcType=INTEGER},
+      isDelete = #{isdelete,jdbcType=BIT},
+      gtype_id = #{gtypeId,jdbcType=INTEGER},
+      gcontent = #{gcontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.domain.GoodsInfo">
+    update df_goods_goodsinfo
+    set gtitle = #{gtitle,jdbcType=VARCHAR},
+      gpic = #{gpic,jdbcType=VARCHAR},
+      gprice = #{gprice,jdbcType=DECIMAL},
+      gunit = #{gunit,jdbcType=VARCHAR},
+      gclick = #{gclick,jdbcType=INTEGER},
+      gjianjie = #{gjianjie,jdbcType=VARCHAR},
+      gkucun = #{gkucun,jdbcType=INTEGER},
+      isDelete = #{isdelete,jdbcType=BIT},
+      gtype_id = #{gtypeId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+ 
+</mapper>

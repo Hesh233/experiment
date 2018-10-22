@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.Dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ssm.domain.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="upwd" jdbcType="VARCHAR" property="upwd" />
+    <result column="uemail" jdbcType="VARCHAR" property="uemail" />
+    <result column="ushou" jdbcType="VARCHAR" property="ushou" />
+    <result column="uphone" jdbcType="VARCHAR" property="uphone" />
+    <result column="uaddress" jdbcType="VARCHAR" property="uaddress" />
+    <result column="uyoubian" jdbcType="VARCHAR" property="uyoubian" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uname, upwd, uemail, ushou, uphone, uaddress, uyoubian
+  </sql>
+    <select id="getUserByName" parameterType="string" resultMap="BaseResultMap">
+            <!-- 此处写sql语句,#{Mapper类传入的参数} -->
+            select id,uname,upwd,uemail,ushou,uphone,uaddress,uyoubian from df_user_userinfo where uname = #{username}
+    </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from df_user_userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from df_user_userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ssm.domain.UserInfo">
+    insert into df_user_userinfo (id, uname, upwd, 
+      uemail, ushou, uphone, 
+      uaddress, uyoubian)
+    values (#{id,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, #{upwd,jdbcType=VARCHAR}, 
+      #{uemail,jdbcType=VARCHAR}, #{ushou,jdbcType=VARCHAR}, #{uphone,jdbcType=VARCHAR}, 
+      #{uaddress,jdbcType=VARCHAR}, #{uyoubian,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.domain.UserInfo">
+    insert into df_user_userinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uname != null">
+        uname,
+      </if>
+      <if test="upwd != null">
+        upwd,
+      </if>
+      <if test="uemail != null">
+        uemail,
+      </if>
+      <if test="ushou != null">
+        ushou,
+      </if>
+      <if test="uphone != null">
+        uphone,
+      </if>
+      <if test="uaddress != null">
+        uaddress,
+      </if>
+      <if test="uyoubian != null">
+        uyoubian,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uname != null">
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="upwd != null">
+        #{upwd,jdbcType=VARCHAR},
+      </if>
+      <if test="uemail != null">
+        #{uemail,jdbcType=VARCHAR},
+      </if>
+      <if test="ushou != null">
+        #{ushou,jdbcType=VARCHAR},
+      </if>
+      <if test="uphone != null">
+        #{uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="uaddress != null">
+        #{uaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="uyoubian != null">
+        #{uyoubian,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.domain.UserInfo">
+    update df_user_userinfo
+    <set>
+      <if test="uname != null">
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="upwd != null">
+        upwd = #{upwd,jdbcType=VARCHAR},
+      </if>
+      <if test="uemail != null">
+        uemail = #{uemail,jdbcType=VARCHAR},
+      </if>
+      <if test="ushou != null">
+        ushou = #{ushou,jdbcType=VARCHAR},
+      </if>
+      <if test="uphone != null">
+        uphone = #{uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="uaddress != null">
+        uaddress = #{uaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="uyoubian != null">
+        uyoubian = #{uyoubian,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.domain.UserInfo">
+    update df_user_userinfo
+    set uname = #{uname,jdbcType=VARCHAR},
+      upwd = #{upwd,jdbcType=VARCHAR},
+      uemail = #{uemail,jdbcType=VARCHAR},
+      ushou = #{ushou,jdbcType=VARCHAR},
+      uphone = #{uphone,jdbcType=VARCHAR},
+      uaddress = #{uaddress,jdbcType=VARCHAR},
+      uyoubian = #{uyoubian,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>
