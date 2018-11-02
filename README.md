@@ -1,5 +1,6 @@
 # python-demo
 练手django项目和一些小demo
+
 1.网络通信五子棋，显示在控制台
 
 2.计算器，有保存到sql功能，tkinterGUI显示
