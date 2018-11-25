@@ -1,4 +1,4 @@
-﻿from selenium import webdriver
+from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import ssl
@@ -10,8 +10,10 @@ from xlutils.copy import copy
 from datetime import datetime
 #爬取最大的页数，0就是全爬完
 MAXPAGE_SIZE = 0
+#每次请求间隔时间,越小越快，但不稳定  0.3在700页左右断过一次 0.4在577页停过一次  0.2在157 最好0.5
+REFRESH_WAIT_TIME = 0.5
 #B站有评论的页面
-SPIDER_URL = 'https://www.bilibili.com/bangumi/play/ss25681'
+SPIDER_URL = 'https://www.bilibili.com/bangumi/play/ss25681'                      #https://www.bilibili.com/bangumi/play/ss25681  25510
 class Bilibili(object):
     def __init__(self):
         #创建工作簿
@@ -27,8 +29,9 @@ class Bilibili(object):
         self.sheet.write(0,2,"时间")
         self.sheet.write(0,3,"评论")
         self.sheet.write(0,4,"点赞数")
-        self.cou = 0        #总条数计数器
-        self.fcou = 0       #for循环条数计数器
+        self.sheet.write(0,5,"客户端")
+        self.countSum = 0        #总条数计数器
+        self.forCount = 0       #for循环条数计数器
     def run(self):
         #读取加载url
         self.driver.get(SPIDER_URL)   
@@ -38,7 +41,7 @@ class Bilibili(object):
         js = "var q = document.documentElement.scrollTop=1000000"  
         self.driver.execute_script(js)  
         while True:     
-            time.sleep(1)
+            time.sleep(REFRESH_WAIT_TIME)
             html = self.driver.page_source
             #去掉换行标签符（没有效果）
             htm = ((html.replace('<br>','')).replace('</br>','')).replace('\n','')
@@ -56,26 +59,33 @@ class Bilibili(object):
                 textCount = i.xpath('//span[@class="floor"]')[j]
                 commonTime = i.xpath('//span[@class="floor"]/following-sibling::span[@class="time"]')[j]
                 showGood = i.xpath('//span[@class="floor"]/following-sibling::span[@class="like"]/span|//span[@class="floor"]/following-sibling::span[@class="like "]/span')[j]
+                client = i.xpath('//span[@class="floor"]/following-sibling::span[1]')[j]
+                clentL = ''
+                if '来自' in client.text:
+                    clentL = client.xpath('./a/text()')
+#                 if '回复' in client.text:
+#                     client.text = '无'
                 #写入文件
-                self.sheet.write(self.cou+j+1,0,textCount.text)
-                self.sheet.write(self.cou+j+1,1,name.text)
-                self.sheet.write(self.cou+j+1,2,commonTime.text)
-                self.sheet.write(self.cou+j+1,3,text.text)
-                self.sheet.write(self.cou+j+1,4,showGood.text)
-                self.fcou = j
-                print(textCount.text);print(name.text);print(commonTime.text);print(text.text);print(showGood.text)
+                self.sheet.write(self.countSum+j+1,0,textCount.text)
+                self.sheet.write(self.countSum+j+1,1,name.text)
+                self.sheet.write(self.countSum+j+1,2,commonTime.text)
+                self.sheet.write(self.countSum+j+1,3,text.text)
+                self.sheet.write(self.countSum+j+1,4,showGood.text)
+                self.sheet.write(self.countSum+j+1,5,clentL)
+                self.forCount = j
+                print(client.text);print(textCount.text);print(name.text);print(commonTime.text);print(text.text);print(showGood.text)
                 #print(j)
             #print(name.__len__() ,text.__len__() ,textCount.__len__() ,commonTime.__len__(),showGood.__len__())
-            self.cou += self.fcou
+            self.countSum += self.forCount
             try:
                 self.driver.find_element_by_xpath('//div[@class="header-page paging-box"]/a[@class="next"]').click()
             except:
                 break
             self.count += 1
             if self.count == MAXPAGE_SIZE:
-                print(self.cou)
+                print(self.countSum)
                 break
-        self.book.save("bili2.xls")
+        self.book.save("bili-test.xls")
         print("end")
 if __name__=='__main__':
     bili = Bilibili()
